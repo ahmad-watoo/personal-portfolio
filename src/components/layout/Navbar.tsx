@@ -125,8 +125,8 @@ export default function Navbar() {
                   lineHeight:    1,
                 }}
               >
-                {personalInfo.name.split(' ')[0]}
-                <Box component="span" sx={{ color: 'primary.main' }}>.</Box>
+                {personalInfo.name.split(' ')[1]}
+                <Box component="span" sx={{ color: 'primary.main' }}> .</Box>
               </Typography>
             </Box>
           </MotionBox>
@@ -296,7 +296,7 @@ export default function Navbar() {
         {/* Drawer header */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
-            {personalInfo.name.split(' ')[0]}
+            {personalInfo.name.split(' ')[1]}
             <Box component="span" sx={{ color: 'primary.main' }}>.</Box>
           </Typography>
           <IconButton onClick={() => setDrawerOpen(false)} size="small">

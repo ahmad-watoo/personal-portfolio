@@ -55,7 +55,7 @@ export interface Project {
 }
 
 // ── Experience ───────────────────────────────────────────────
-export type ExperienceType = 'work' | 'education' | 'freelance'
+export type ExperienceType = 'work' | 'education' | 'freelance' | 'certification'
 
 export interface Experience {
   id: string
@@ -89,7 +89,8 @@ export interface PersonalInfo {
   email: string
   availableForWork: boolean
   avatar: string          // Image URL
-  resume: string          // PDF URL
+  resume: string      
+  phone:        string
   socials: SocialLink[]
 }
 

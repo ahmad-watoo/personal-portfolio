@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# Personal Portfolio — Alex Carter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, performant developer portfolio built with React, TypeScript, and a carefully chosen stack. Designed to be easy to maintain, fully responsive, and visually polished.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- **React 18** + **TypeScript** — component architecture with full type safety
+- **Vite** — fast dev server and optimized production builds
+- **MUI (Material UI v5)** — component library with a fully custom theme
+- **Tailwind CSS** — utility classes alongside MUI (prefixed `tw-` to avoid conflicts)
+- **Framer Motion** — scroll-triggered and entrance animations
+- **Redux Toolkit** — global state (theme mode, persisted to localStorage)
+- **React Router v6** — client-side routing
+- **React Hook Form + Zod** — contact form with schema validation
+- **Lucide React** — lightweight icon set
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Node.js **v18+** and npm **v9+** required.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+node --version  # v18+
+npm --version   # v9+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Install & Run
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/portfolio.git
+cd portfolio
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
 ```
+
+Opens at `http://localhost:3000`.
+
+---
+
+## Project Structure
+
+```
+src/
+├── animations/        # Framer Motion variants (reusable)
+├── components/
+│   ├── layout/        # Navbar, Footer
+│   └── ui/            # Primitives: Tag, GradientText, ScrollReveal, etc.
+├── constants/         # Nav items, site-wide constants
+├── data/              # All content: personal.ts, projects.ts, skills.ts, experience.ts
+├── hooks/             # useInView, useScrollSpy, useRedux
+├── pages/             # Home.tsx (assembles all sections)
+├── router/            # React Router config
+├── sections/          # Hero, About, Projects, Experience, Contact
+├── store/             # Redux store + themeSlice
+├── styles/            # globals.css (CSS variables, Tailwind base)
+├── theme/             # MUI theme: palette, typography, component overrides
+└── types/             # All TypeScript interfaces
+```
+
+---
+
+## Customisation
+
+All content lives in `src/data/` — you never need to touch component code to update your info.
+
+| File | What to edit |
+|---|---|
+| `data/personal.ts` | Name, title, bio, location, email, socials |
+| `data/projects.ts` | Projects, links, tags, descriptions |
+| `data/skills.ts` | Skills and proficiency levels |
+| `data/experience.ts` | Work history and education |
+
+To change the brand color, update `--color-primary` in `src/styles/globals.css` and `BRAND.primary.main` in `src/theme/palette.ts`.
+
+---
+
+## Available Scripts
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Production build (runs tsc first)
+npm run preview      # Preview production build locally
+npm run type-check   # TypeScript check without building
+npm run lint         # ESLint
+```
+
+---
+
+## Deployment
+
+This is a static site — deploy anywhere that serves HTML.
+
+**Vercel (recommended)**
+```bash
+npm i -g vercel
+vercel
+```
+
+**Netlify** — drag and drop the `dist/` folder after `npm run build`.
+
+**GitHub Pages** — push to a repo, set Pages source to `dist/` via GitHub Actions.
+
+---
+
+## License
+
+MIT — use it however you like.

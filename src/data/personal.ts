@@ -1,4 +1,4 @@
-import type { PersonalInfo, Stat } from '@/types'
+import type { PersonalInfo, Stat } from "@/types";
 
 // ─────────────────────────────────────────────────────────────
 //  EDIT THIS FILE to update all personal info across the site.
@@ -9,28 +9,41 @@ import type { PersonalInfo, Stat } from '@/types'
 // ─────────────────────────────────────────────────────────────
 
 export const personalInfo: PersonalInfo = {
-  name:             'Muhammad Ahmad',
-  title:            'Full-Stack Developer',
-  tagline:          'Building digital things that matter.',
+  name: "Muhammad Ahmad",
+  title: "Full-Stack Developer",
+  tagline: "Building digital things that matter.",
   bio: [
-    "I'm a full-stack developer with 2+ years of experience crafting web applications that are fast, scalable, and a joy to use.",
-    "Whether it's a consumer product, internal tooling, or a complex API integration — I bring structure, creativity, and care to every project.",
-    "When I'm not coding, I'm exploring new technologies, contributing to open source, or sketching UI concepts.",
+    "I'm a Full Stack Developer with 2+ years of experience building scalable web applications using the MERN stack. I specialise in React.js for dynamic, responsive UIs and backend development with Node.js and MongoDB.",
+    "Currently at RamsStacks, I build complex high-performance interfaces with React.js, TypeScript, and Redux, and handle real-time data with Supabase. I care deeply about clean, maintainable code and collaborative agile delivery.",
+    "Outside of work, I'm exploring Web 3.0, AI/ML, and pushing my skills into new territory — always learning, always building.",
   ],
-  location:         'New Iqbal park Lahore, Pakistan',
-  email:            'pakmuhammadahmad8@gmail.com',
+  location: "New Iqbal park Lahore, Pakistan",
+  email: "pakmuhammadahmad8@gmail.com",
+  phone:            '+92 340 6180448',
   availableForWork: true,
-  avatar:           '/images/avatar.jpg',
-  resume:           './ahmad-resume.pdf',
+  avatar: "/images/avatar.jpg",
+  resume: "./ahmad-resume.pdf",
   socials: [
-    { platform: 'GitHub',   url: 'https://github.com/ahmad-watoo',     icon: 'GitHub'   },
-    { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/muhammad-ahmad-5192b6220/', icon: 'LinkedIn' },
-    { platform: 'Facebook',  url: 'https://www.facebook.com/profile.php?id=100091976807098',     icon: 'Facebook'  },
+    {
+      platform: "GitHub",
+      url: "https://github.com/ahmad-watoo",
+      icon: "GitHub",
+    },
+    {
+      platform: "LinkedIn",
+      url: "https://www.linkedin.com/in/muhammad-ahmad-5192b6220/",
+      icon: "LinkedIn",
+    },
+    {
+      platform: "Facebook",
+      url: "https://www.facebook.com/profile.php?id=100091976807098",
+      icon: "Facebook",
+    },
   ],
-}
+};
 
 export const heroStats: Stat[] = [
-  { label: 'Years Experience', value: '2',  suffix: '+' },
-  { label: 'Projects Shipped', value: '20', suffix: '+' },
-  { label: 'Happy Clients',    value: '12', suffix: '+' },
-]
+  { label: "Years Experience", value: "2", suffix: "+" },
+  { label: "Projects Shipped", value: "10", suffix: "+" },
+  { label: "Happy Clients", value: "3", suffix: "" },
+];

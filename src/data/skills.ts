@@ -6,23 +6,26 @@ import type { Skill } from '@/types'
 
 export const skills: Skill[] = [
   // Frontend
-  { id: 'react',       name: 'React / Next.js', category: 'frontend', level: 92 },
-  { id: 'typescript',  name: 'TypeScript',       category: 'frontend', level: 88 },
-  { id: 'tailwind',    name: 'Tailwind CSS',     category: 'frontend', level: 90 },
-  { id: 'framer',      name: 'Framer Motion',    category: 'frontend', level: 80 },
+  { id: 'react',       name: 'React.js',          category: 'frontend', level: 92 },
+  { id: 'nextjs',      name: 'Next.js',            category: 'frontend', level: 80 },
+  { id: 'typescript',  name: 'TypeScript',         category: 'frontend', level: 85 },
+  { id: 'javascript',  name: 'JavaScript (ES6+)',  category: 'frontend', level: 90 },
+  { id: 'redux',       name: 'Redux / RTK',        category: 'frontend', level: 88 },
+  { id: 'tailwind',    name: 'Tailwind CSS',       category: 'frontend', level: 88 },
+  { id: 'bootstrap',   name: 'Bootstrap',          category: 'frontend', level: 85 },
+  { id: 'antd',        name: 'Ant Design',         category: 'frontend', level: 80 },
+  { id: 'html',        name: 'HTML5 / CSS3',       category: 'frontend', level: 95 },
 
   // Backend
-  { id: 'nodejs',      name: 'Node.js / Express',  category: 'backend', level: 85 },
-  { id: 'postgresql',  name: 'PostgreSQL',          category: 'backend', level: 80 },
-  { id: 'mongodb',     name: 'MongoDB',             category: 'backend', level: 75 },
-  { id: 'python',      name: 'Python / FastAPI',    category: 'backend', level: 70 },
+  { id: 'nodejs',      name: 'Node.js',            category: 'backend',  level: 80 },
+  { id: 'express',     name: 'Express.js',         category: 'backend',  level: 78 },
+  { id: 'mongodb',     name: 'MongoDB',            category: 'backend',  level: 80 },
+  { id: 'restapi',     name: 'REST APIs',          category: 'backend',  level: 85 },
+  { id: 'supabase',    name: 'Supabase',           category: 'backend',  level: 72 },
+  { id: 'reactquery',  name: 'React Query',        category: 'backend',  level: 78 },
 
-  // DevOps
-  { id: 'docker',      name: 'Docker',      category: 'devops', level: 72 },
-  { id: 'aws',         name: 'AWS',         category: 'devops', level: 68 },
-  { id: 'git',         name: 'Git / CI/CD', category: 'devops', level: 90 },
-
-  // Design
-  { id: 'figma',       name: 'Figma',       category: 'design', level: 82 },
-  { id: 'ux',          name: 'UI/UX Design',category: 'design', level: 78 },
+  // DevOps / Tools
+  { id: 'git',         name: 'Git / GitHub',       category: 'devops',   level: 88 },
+  { id: 'agile',       name: 'Agile / Scrum',      category: 'devops',   level: 80 },
+  { id: 'unittest',    name: 'Unit Testing',       category: 'devops',   level: 70 },
 ]
