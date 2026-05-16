@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { MapPin, Mail, Phone, GraduationCap, Briefcase, Award, Download } from 'lucide-react'
 import { personalInfo } from '@/data/personal'
 import { SectionWrapper, SectionHeading, ScrollReveal } from '@/components/ui'
-import { staggerContainer, fadeUp, fadeLeft, fadeRight } from '@/animations/variants'
+import { staggerContainer, fadeUp, fadeRight } from '@/animations/variants'
 
 const MotionBox = motion(Box)
 
@@ -148,7 +148,7 @@ export default function AboutSection() {
           >
             <Grid container spacing={2} sx={{ mb: '2rem' }}>
               {INFO_CARDS.map((card) => (
-                <Grid item xs={6} key={card.label}>
+                <Grid size={{ xs: 6 }} key={card.label}>
                   <ScrollReveal>
                     <Box
                       sx={{

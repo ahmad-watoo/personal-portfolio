@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react'
 import { Box, Typography, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import { motion, useInView } from 'framer-motion'
+import {  useInView } from 'framer-motion'
 import { Briefcase, GraduationCap, Award, CheckCircle2, ExternalLink } from 'lucide-react'
 import { experiences } from '@/data/experience'
 import { SectionWrapper, SectionHeading, ScrollReveal, Tag } from '@/components/ui'
 import type { ExperienceType } from '@/types'
 
-const MotionBox = motion(Box)
+// const MotionBox = motion(Box)
 
 const TYPE_CONFIG: Record<ExperienceType, { icon: React.ReactNode; color: string; label: string }> = {
   work:          { icon: <Briefcase size={16} />,     color: '#6366f1', label: 'Work'          },

@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { Download, ArrowDown, MapPin, Mail } from 'lucide-react'
 import { personalInfo, heroStats } from '@/data/personal'
 import { GradientText, AnimatedText } from '@/components/ui'
-import { staggerContainer, fadeUp, fadeLeft, fadeRight, scaleUp } from '@/animations/variants'
+import { staggerContainer, fadeUp,  fadeRight, scaleUp } from '@/animations/variants'
 
 const MotionBox = motion(Box)
 
