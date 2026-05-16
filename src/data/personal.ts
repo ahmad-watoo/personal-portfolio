@@ -22,7 +22,7 @@ export const personalInfo: PersonalInfo = {
   phone:            '+92 340 6180448',
   availableForWork: true,
   avatar: "/images/avatar.jpg",
-  resume: "./ahmad-resume.pdf",
+  resume: "./M_Ahmad_CV.pdf",
   socials: [
     {
       platform: "GitHub",

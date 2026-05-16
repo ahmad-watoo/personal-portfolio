@@ -11,14 +11,15 @@ import { ArrowUp, Code2 } from 'lucide-react'
 import { NAV_ITEMS } from '@/constants'
 import { personalInfo } from '@/data/personal'
 import { ScrollReveal } from '@/components/ui'
-import type { SvgIconComponent } from '@mui/icons-material'
-
+import { type SvgIconComponent } from '@mui/icons-material'
+import FacebookIcon from '@mui/icons-material/Facebook';
 // Map icon key → MUI icon component
 const SOCIAL_ICONS: Record<string, SvgIconComponent> = {
   GitHub:   GitHubIcon,
   LinkedIn: LinkedInIcon,
   Twitter:  TwitterIcon,
   Email:    EmailIcon,
+  Facebook:  FacebookIcon, // Using Face icon as a placeholder for Facebook
 }
 
 const MotionBox = motion(Box)
@@ -68,8 +69,8 @@ export default function Footer() {
                   <Code2 size={14} color="#fff" />
                 </Box>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', letterSpacing: '-0.03em', color: 'text.primary' }}>
-                  {personalInfo.name.split(' ')[0]}
-                  <Box component="span" sx={{ color: 'primary.main' }}>.</Box>
+                  {personalInfo.name.split(' ')[1]}
+                  <Box component="span" sx={{ color: 'primary.main' }}> .</Box>
                 </Typography>
               </Box>
 
