@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import {
-  Box, Typography, Button,  Dialog,
+  Box, Typography, Button, Dialog,
   DialogContent, IconButton,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -23,6 +23,168 @@ const STATUS_LABEL: Record<string, string> = {
   archived: 'Archived',
 }
 
+// ─────────────────────────────────────────────────────────────
+//  ProjectThumbnail
+//  Shows the real screenshot if available.
+//  Falls back to a styled placeholder if the image 404s.
+// ─────────────────────────────────────────────────────────────
+function ProjectThumbnail({ project }: { project: Project }) {
+  const [imgError, setImgError] = useState(false)
+
+  // Category → gradient + emoji for the fallback
+  const FALLBACK: Record<string, { emoji: string; from: string; to: string }> = {
+    'Full-Stack':   { emoji: '🏗️', from: '#6366f1', to: '#06b6d4' },
+    'Landing Page': { emoji: '🎨', from: '#f59e0b', to: '#ef4444' },
+    'Backend':      { emoji: '⚙️', from: '#22c55e', to: '#06b6d4' },
+    'AI / ML':      { emoji: '🤖', from: '#8b5cf6', to: '#06b6d4' },
+  }
+  const fb = FALLBACK[project.category] ?? { emoji: '💻', from: '#6366f1', to: '#818cf8' }
+
+  return (
+    <Box
+      sx={{
+        aspectRatio: '16/9',
+        position:    'relative',
+        overflow:    'hidden',
+        borderBottom:'1px solid var(--color-border)',
+        backgroundColor: 'var(--color-bg-3)',
+      }}
+    >
+      {/* ── Real screenshot ─────────────────────────────── */}
+      {!imgError && project.thumbnail && (
+        <Box
+          component="img"
+          src={project.thumbnail}
+          alt={`${project.title} screenshot`}
+          onError={() => setImgError(true)}
+          sx={{
+            width:      '100%',
+            height:     '100%',
+            objectFit:  'cover',
+            objectPosition: 'top center',
+            display:    'block',
+            transition: 'transform 0.5s ease',
+            '.MuiBox-root:hover &': {
+              transform: 'scale(1.04)',
+            },
+          }}
+        />
+      )}
+
+      {/* ── Fallback placeholder ─────────────────────────── */}
+      {(imgError || !project.thumbnail) && (
+        <Box
+          sx={{
+            width:          '100%',
+            height:         '100%',
+            background:     `linear-gradient(135deg, ${alpha(fb.from, 0.18)} 0%, ${alpha(fb.to, 0.12)} 100%)`,
+            display:        'flex',
+            flexDirection:  'column',
+            alignItems:     'center',
+            justifyContent: 'center',
+            gap:            '0.4rem',
+          }}
+        >
+          {/* Subtle grid pattern */}
+          <Box sx={{
+            position:   'absolute',
+            inset:      0,
+            backgroundImage: `
+              linear-gradient(var(--color-border) 1px, transparent 1px),
+              linear-gradient(90deg, var(--color-border) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+            opacity:        0.45,
+          }} />
+          <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+            <Typography sx={{ fontSize: '2.5rem', lineHeight: 1, mb: '0.35rem' }}>
+              {fb.emoji}
+            </Typography>
+            <Typography sx={{
+              fontSize:      '0.72rem',
+              fontWeight:    700,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color:         'primary.main',
+            }}>
+              {project.category}
+            </Typography>
+          </Box>
+        </Box>
+      )}
+
+      {/* ── Overlay on hover (only on real images) ──────── */}
+      {!imgError && project.thumbnail && (
+        <Box sx={{
+          position:        'absolute',
+          inset:           0,
+          background:      'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)',
+          opacity:         0,
+          transition:      'opacity 0.3s ease',
+          '.MuiBox-root:hover &': { opacity: 1 },
+          display:         'flex',
+          alignItems:      'flex-end',
+          p:               '0.75rem',
+        }}>
+          <Typography sx={{
+            fontSize:   '0.75rem',
+            fontWeight: 600,
+            color:      '#fff',
+            opacity:    0.9,
+          }}>
+            Click to view details
+          </Typography>
+        </Box>
+      )}
+
+      {/* ── Featured badge ───────────────────────────────── */}
+      {project.featured && (
+        <Box sx={{
+          position:        'absolute',
+          top:             '0.75rem',
+          left:            '0.75rem',
+          backgroundColor: alpha('#f59e0b', 0.15),
+          border:          `1px solid ${alpha('#f59e0b', 0.35)}`,
+          borderRadius:    '6px',
+          px:              '0.5rem',
+          py:              '0.2rem',
+          display:         'flex',
+          alignItems:      'center',
+          gap:             '0.3rem',
+          backdropFilter:  'blur(8px)',
+          zIndex:          2,
+        }}>
+          <Star size={11} color="#f59e0b" fill="#f59e0b" />
+          <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#f59e0b' }}>
+            Featured
+          </Typography>
+        </Box>
+      )}
+
+      {/* ── Status badge ─────────────────────────────────── */}
+      <Box sx={{
+        position:        'absolute',
+        top:             '0.75rem',
+        right:           '0.75rem',
+        backgroundColor: alpha(STATUS_COLOR[project.status] ?? '#6b7280', 0.15),
+        border:          `1px solid ${alpha(STATUS_COLOR[project.status] ?? '#6b7280', 0.35)}`,
+        borderRadius:    '6px',
+        px:              '0.5rem',
+        py:              '0.2rem',
+        backdropFilter:  'blur(8px)',
+        zIndex:          2,
+      }}>
+        <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: STATUS_COLOR[project.status] }}>
+          {STATUS_LABEL[project.status]}
+        </Typography>
+      </Box>
+    </Box>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────
+//  ProjectCard
+// ─────────────────────────────────────────────────────────────
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) {
   return (
     <MotionBox
@@ -48,75 +210,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
         },
       }}
     >
-      {/* Thumbnail */}
-      <Box
-        sx={{
-          aspectRatio:     '16/9',
-          background:      `linear-gradient(135deg, ${alpha('#6366f1', 0.15)} 0%, ${alpha('#06b6d4', 0.1)} 100%)`,
-          display:         'flex',
-          alignItems:      'center',
-          justifyContent:  'center',
-          borderBottom:    '1px solid var(--color-border)',
-          position:        'relative',
-          overflow:        'hidden',
-        }}
-      >
-        {/* Decorative grid */}
-        <Box sx={{
-          position:   'absolute',
-          inset:      0,
-          backgroundImage: `
-            linear-gradient(var(--color-border) 1px, transparent 1px),
-            linear-gradient(90deg, var(--color-border) 1px, transparent 1px)
-          `,
-          backgroundSize: '24px 24px',
-          opacity:        0.5,
-        }} />
-        <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-          <Typography sx={{ fontSize: '2.5rem', mb: '0.25rem' }}>
-            {project.category === 'Full-Stack' ? '🏗️' : project.category === 'AI / ML' ? '🤖' : '💻'}
-          </Typography>
-          <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: 'primary.main', letterSpacing: '0.05em' }}>
-            {project.category}
-          </Typography>
-        </Box>
-
-        {/* Featured badge */}
-        {project.featured && (
-          <Box sx={{
-            position:        'absolute',
-            top:             '0.75rem',
-            left:            '0.75rem',
-            backgroundColor: alpha('#f59e0b', 0.15),
-            border:          `1px solid ${alpha('#f59e0b', 0.3)}`,
-            borderRadius:    '6px',
-            px:              '0.5rem',
-            py:              '0.2rem',
-            display:         'flex',
-            alignItems:      'center',
-            gap:             '0.3rem',
-          }}>
-            <Star size={11} color="#f59e0b" fill="#f59e0b" />
-            <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#f59e0b' }}>Featured</Typography>
-          </Box>
-        )}
-
-        {/* Status badge */}
-        <Box sx={{
-          position:        'absolute',
-          top:             '0.75rem',
-          right:           '0.75rem',
-          backgroundColor: alpha(STATUS_COLOR[project.status] ?? '#6b7280', 0.12),
-          border:          `1px solid ${alpha(STATUS_COLOR[project.status] ?? '#6b7280', 0.3)}`,
-          borderRadius:    '6px',
-          px:              '0.5rem',
-          py:              '0.2rem',
-        }}>
-          <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: STATUS_COLOR[project.status] }}>
-            {STATUS_LABEL[project.status]}
-          </Typography>
-        </Box>
-      </Box>
+      <ProjectThumbnail project={project} />
 
       {/* Card body */}
       <Box sx={{ p: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -137,7 +231,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
         </Typography>
 
         {/* Links */}
-        <Box sx={{ display: 'flex', gap: '0.75rem', mt: 'auto' }}>
+        <Box sx={{ display: 'flex', gap: '0.75rem', mt: 'auto', flexWrap: 'wrap' }}>
           {project.links.map(link => (
             <Box
               key={link.label}
@@ -162,11 +256,10 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
             </Box>
           ))}
           <Box
-            onClick={(e) => { e.stopPropagation(); onOpen(project) }}
+            onClick={e => { e.stopPropagation(); onOpen(project) }}
             sx={{
               display:    'flex',
               alignItems: 'center',
-              gap:        '0.3rem',
               fontSize:   '0.78rem',
               fontWeight: 600,
               color:      'primary.main',
@@ -183,7 +276,19 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
   )
 }
 
+// ─────────────────────────────────────────────────────────────
+//  ProjectModal — detail view with full screenshot
+// ─────────────────────────────────────────────────────────────
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  const [imgError, setImgError] = useState(false)
+
+  // Reset imgError when project changes
+  const prevId = useRef<string | null>(null)
+  if (project?.id !== prevId.current) {
+    prevId.current = project?.id ?? null
+    if (imgError) setImgError(false)
+  }
+
   return (
     <Dialog
       open={!!project}
@@ -204,6 +309,41 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
     >
       {project && (
         <DialogContent sx={{ p: 0 }}>
+          {/* Full screenshot at top of modal */}
+          {project.thumbnail && !imgError && (
+            <Box sx={{
+              width:           '100%',
+              aspectRatio:     '16/7',
+              overflow:        'hidden',
+              borderBottom:    '1px solid var(--color-border)',
+              backgroundColor: 'var(--color-bg-3)',
+              position:        'relative',
+            }}>
+              <Box
+                component="img"
+                src={project.thumbnail}
+                alt={`${project.title} screenshot`}
+                onError={() => setImgError(true)}
+                sx={{
+                  width:          '100%',
+                  height:         '100%',
+                  objectFit:      'cover',
+                  objectPosition: 'top center',
+                  display:        'block',
+                }}
+              />
+              {/* Gradient fade at bottom */}
+              <Box sx={{
+                position:   'absolute',
+                bottom:     0,
+                left:       0,
+                right:      0,
+                height:     '40%',
+                background: 'linear-gradient(to top, var(--color-bg) 0%, transparent 100%)',
+              }} />
+            </Box>
+          )}
+
           {/* Modal header */}
           <Box
             sx={{
@@ -212,7 +352,10 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
               display:         'flex',
               justifyContent:  'space-between',
               alignItems:      'flex-start',
-              backgroundColor: 'var(--color-bg-2)',
+              backgroundColor: project.thumbnail && !imgError ? 'transparent' : 'var(--color-bg-2)',
+              mt:              project.thumbnail && !imgError ? '-2rem' : 0,
+              position:        'relative',
+              zIndex:          1,
             }}
           >
             <Box>
@@ -226,7 +369,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 {project.year} · {project.category}
               </Typography>
             </Box>
-            <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
+            <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary', flexShrink: 0 }}>
               <X size={20} />
             </IconButton>
           </Box>
@@ -245,7 +388,9 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 {project.highlights.map((h, i) => (
                   <Box key={i} sx={{ display: 'flex', gap: '0.6rem', mb: '0.5rem', alignItems: 'flex-start' }}>
                     <CheckCircle2 size={15} color="var(--color-primary)" style={{ marginTop: 2, flexShrink: 0 }} />
-                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>{h}</Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                      {h}
+                    </Typography>
                   </Box>
                 ))}
               </Box>
@@ -261,7 +406,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                   rel="noopener noreferrer"
                   variant={link.type === 'demo' ? 'contained' : 'outlined'}
                   startIcon={link.type === 'github' ? <GitBranch size={15} /> : <ExternalLink size={15} />}
-                  sx={{ borderRadius: '8px', fontWeight: 600 }}
+                  sx={{ borderRadius: '8px', fontWeight: 600, boxShadow: 'none' }}
                 >
                   {link.label}
                 </Button>
@@ -274,10 +419,13 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
   )
 }
 
+// ─────────────────────────────────────────────────────────────
+//  ProjectsSection
+// ─────────────────────────────────────────────────────────────
 export default function ProjectsSection() {
-  const ref      = useRef<HTMLDivElement>(null)
-  const inView   = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px' })
-  const [active, setActive]   = useState('All')
+  const ref    = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px' })
+  const [active, setActive]     = useState('All')
   const [selected, setSelected] = useState<Project | null>(null)
 
   const filtered = active === 'All' ? projects : projects.filter(p => p.category === active)
@@ -315,11 +463,11 @@ export default function ProjectsSection() {
                   fontWeight:      600,
                   fontSize:        '0.8rem',
                   px:              '1rem',
+                  boxShadow:       'none',
                   borderColor:     active !== cat ? 'var(--color-border)' : undefined,
                   color:           active !== cat ? 'text.secondary' : undefined,
-                  backgroundColor: active === cat ? undefined : 'transparent',
-                  boxShadow:       'none',
-                  '&:hover': { boxShadow: 'none' },
+                  backgroundColor: active !== cat ? 'transparent' : undefined,
+                  '&:hover':       { boxShadow: 'none' },
                 }}
               >
                 {cat}
@@ -334,15 +482,11 @@ export default function ProjectsSection() {
             key={active}
             sx={{
               display:             'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: 'repeat(2, 1fr)',
-                lg: 'repeat(3, 1fr)',
-              },
-              gap: '1.5rem',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' },
+              gap:                 '1.5rem',
             }}
           >
-            {filtered.map((project) => (
+            {filtered.map(project => (
               <ProjectCard key={project.id} project={project} onOpen={setSelected} />
             ))}
           </MotionBox>

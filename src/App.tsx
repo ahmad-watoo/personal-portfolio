@@ -7,7 +7,7 @@ import { createAppTheme } from '@/theme'
 import { useAppSelector } from '@/hooks/useRedux'
 import { router } from '@/router'
 
-// ─────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 //  Inner app — has access to Redux store, reads theme mode
 // ─────────────────────────────────────────────────────────────
 function ThemedApp() {
@@ -18,12 +18,7 @@ function ThemedApp() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/*
-        CssBaseline:
-        - Applies MUI's CSS reset
-        - Sets body background from theme.palette.background.default
-        - We override font-family via globals.css
-      */}
+      
       <CssBaseline />
       <RouterProvider router={router} />
     </ThemeProvider>
