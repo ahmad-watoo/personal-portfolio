@@ -17,7 +17,7 @@ import { personalInfo } from "@/data/personal";
 import { SectionWrapper, SectionHeading, ScrollReveal } from "@/components/ui";
 import { supabase } from "@/lib/supabase";
 import type { ContactFormData } from "@/types";
-
+import toast from 'react-hot-toast';
 const schema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
@@ -93,9 +93,16 @@ export default function ContactSection() {
           is_read: false,
         },
       ]);
-      console.log("Inserted:", data);
-console.log("Error:", sbError);
-      if (sbError) throw new Error(sbError.message);
+      toast.success(
+        <span >
+          <b>{data.firstName}</b>, your message has been sent successfully!
+        </span>
+      );   
+      console.log("Error:", sbError);
+      if (sbError) {
+        toast.error(`Error: ${sbError.message}`);
+        throw new Error(sbError.message);
+      }
       setSubmitted(true);
       reset();
     } catch (err) {

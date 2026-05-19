@@ -3,7 +3,7 @@ import {
   Box, Typography, TextField, Button, IconButton,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, Chip, Tooltip, Dialog, DialogContent, DialogTitle,
-  CircularProgress, Alert, Divider, InputAdornment,
+  CircularProgress, Alert, Divider, InputAdornment, TablePagination
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import {
@@ -220,7 +220,10 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [filter, setFilter]       = useState<'all' | 'unread' | 'read'>('all')
   const [selected, setSelected]   = useState<MessageRow | null>(null)
   const [deleting, setDeleting]   = useState<string | null>(null)
-
+  //Pagination states
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  
   // ── Fetch messages ────────────────────────────────────────
   const fetchMessages = useCallback(async () => {
     setLoading(true)
@@ -289,7 +292,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
     return matchesFilter && matchesSearch
   })
-
+  const paginated = visible.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  useEffect(() => { setPage(0) }, [search, filter])
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: 'var(--color-bg)', pb: '3rem' }}>
 
@@ -440,7 +444,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {visible.map(msg => (
+                  {paginated.map(msg => (
                     <TableRow
                       key={msg.id}
                       onClick={() => openMessage(msg)}
@@ -539,12 +543,26 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               </Table>
             </TableContainer>
           )}
+      <TablePagination
+        component="div"
+        count={visible.length}
+        page={page}
+        onPageChange={(_, newPage:any) => setPage(newPage)}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={e => { setRowsPerPage(parseInt(e.target.value, 10)); setPage(0) }}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        sx={{
+          borderTop: '1px solid var(--color-border)',
+          color: 'text.secondary',
+          fontSize: '0.8rem',
+          '.MuiTablePagination-select': { borderRadius: '6px' },
+        }}
+      />
         </Paper>
-
         {/* Footer count */}
         {!loading && visible.length > 0 && (
           <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'right', mt: '0.75rem', fontSize: '0.78rem' }}>
-            Showing {visible.length} of {total} messages
+            {Math.min(page * rowsPerPage + rowsPerPage, visible.length)} of {visible.length} messages
           </Typography>
         )}
       </Box>

@@ -6,7 +6,7 @@ import { store } from '@/store'
 import { createAppTheme } from '@/theme'
 import { useAppSelector } from '@/hooks/useRedux'
 import { router } from '@/router'
-
+import { Toaster } from 'react-hot-toast';
 // ────────────────────────────────────────────────────────────
 //  Inner app — has access to Redux store, reads theme mode
 // ─────────────────────────────────────────────────────────────
@@ -18,7 +18,7 @@ function ThemedApp() {
 
   return (
     <ThemeProvider theme={theme}>
-      
+       <Toaster position="top-right" />
       <CssBaseline />
       <RouterProvider router={router} />
     </ThemeProvider>
